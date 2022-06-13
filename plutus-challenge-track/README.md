@@ -33,6 +33,28 @@ Change both the validator's and cardano-cli's code to use:
 - Reference scripts
 - Custom collaterals
 
+### Get started with the contract
+
+To work with the Plutus swap we need to work from from `nix-shell`. Follow the next steps before building with Cabal.
+
+- Get the `plutus-apps` repo and checkout to the [`next-node` branch](https://github.com/input-output-hk/plutus-apps/tree/next-node) branch. 
+- Once there run `nix-shell`
+- Go to the [`plutus-challenge-track`](https://github.com/input-output-hk/plutus-community/tree/main/plutus-challenge-track) and run:
+    - cabal update
+    - cabal build
+    - cabal repl
+
+```
+~/plutus-apps$ nix-shell
+.
+.
+.
+[nix-shell]$ cabal update
+[nix-shell]$ cabal build
+[nix-shell]$ cabal repl
+```
+
+
 # Marketplace
 
 One of our partners (dQuadrant) prepared a Marketplace that lives [HERE](https://github.com/dQuadrant/cardano-marketplace).
