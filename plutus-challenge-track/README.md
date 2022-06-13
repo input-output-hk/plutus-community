@@ -36,5 +36,5 @@ Change both the validator's and cardano-cli's code to use:
 # Marketplace
 
 One of our partners (dQuadrant) prepared a Marketplace that lives [HERE](https://github.com/dQuadrant/cardano-marketplace).
-A description of this example look at the `Hackathon - NFT Marketplace Challenge - Overview.pdf` in this repo.
+A description of this example look at the [`Hackathon - NFT Marketplace Challenge - Overview.pdf`](https://github.com/input-output-hk/plutus-community/blob/main/plutus-challenge-track/Hackathon%20-%20NFT%20Marketplace%20Challenge%20-%20Overview.pdf) in this repo.
 
