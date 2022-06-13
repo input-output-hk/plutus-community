@@ -183,7 +183,7 @@ Alice in our example by a script, we place a digital signature by a redeemer whi
 
 So, Ethereum uses a different concept. In Ethereum the script basically can see everything, the whole blockchain,the whole state of the blockchain. So that's like the opposite extreme of Bitcoin. Bitcoin the script has very little context, all it can see is the redeemer. In Ethereum the solidity scripts in Ethereum can see the complete state of the blockchain. So that enables Ethereum's scripts to be much more powerful so they can do basically everything, but it also comes with problems because the scripts are so powerful, it's also very difficult to predict what a given script will do and that opens the door to all sorts of security issues and dangerous, because it's very hard to predict for the developers of an Ethereum smart contract what can possibly happen because there are so many possibilities.<br/>
 
-So what Cardano does is something in the middle, so it doesn't offer such a restricted view as Bitcoin, but also does not have a global view as Ethereum, but instead chooses a middle ground. So the script can see the whole blockchain, can see the state of the word blockchain, but it can't see the whole transaction that is being validated. 
+So what Cardano does is something in the middle, so it doesn't offer such a restricted view as Bitcoin, but also does not have a global view as Ethereum, but instead chooses a middle ground. So, the Plutus script can't see the whole blockchain, but it can see the whole transaction that is being validated. 
 
 
 ![Screenshot 2022-03-22 at 20-08-04 PPP 030101 - Welcome and Introduction](https://user-images.githubusercontent.com/59018247/159596869-3ebf8181-ae73-4539-bded-21b1eaf5d9fd.png)
