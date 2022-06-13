@@ -53,7 +53,8 @@ Node Version: cardano-node 1.35.0-rc2 - linux-x86_64 - ghc-8.10 `git rev 95c3692
 Download binaries for your architecture from (binaries links point to an older node version 1.33.0 but is still compatible with 1.35.0-rc2): 
 - Linux: https://hydra.iohk.io/build/14866208 
 - MacOS: https://hydra.iohk.io/build/14866101 
-cardano-node run --config config.json --database-path db --socket-path node.socket --topology topology.json
+
+`cardano-node run --config config.json --database-path db --socket-path node.socket --topology topology.json`
 
 (Linux or MacOS recommended, Windows build is not fully supported on testnet)
 
