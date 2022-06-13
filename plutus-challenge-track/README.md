@@ -61,3 +61,7 @@ Download binaries for your architecture from (binaries links point to an older n
 👉 If you have a NixOS you can also build the node with Nix:
 `git clone https://github.com/input-output-hk/cardano-world` 
 `DATA_DIR=/home/sam/.local/share/bitte/cardano ENVIRONMENT=vasil-qa SOCKET_PATH=$(pwd)/node.socket nix run .#x86_64-linux.cardano.entrypoints.cardano-node`
+
+✅ to check that you have a node running, query the chain tip:
+cardano-cli query tip --testnet-magic 1097911063 
+
