@@ -11,17 +11,22 @@ And finalised thanks to @nrkramer Nolan Kramer!
 
 ## Step by step
 
-1 download the nix package manager and install it
+1 ensure you have [Rosetta 2](https://support.apple.com/en-us/HT211861) installed so that you can run programs built for `x86_64-darwin`
 ```console
-sh <(curl -L https://nixos.org/nix/install) --darwin-use-unencrypted-nix-store-volume
+sudo softwareupdate --install-rosetta --agree-to-license
 ```
-2 restart terminal
 
-3 open the nix config file
+2 download the nix package manager and install it
+```console
+sh <(curl -L https://nixos.org/nix/install)
+```
+3 restart terminal
+
+4 open the nix config file
 ```console
 sudo nano /etc/nix/nix.conf
 ```
-4 be sure these lines are all inside the file
+5 be sure these lines are all inside the file
 ```console
 build-users-group = nixbld
 
@@ -36,7 +41,7 @@ extra-sandbox-paths = /System/Library/Frameworks /System/Library/PrivateFramewor
 experimental-features = nix-command
 extra-experimental-features = flakes
 ```
-5 restart mac
+6 restart mac
 
 to make some space on your harddrive without deleting nix - if you do not use nix for a while:
 
