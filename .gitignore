@@ -7,3 +7,8 @@
 *.003
 
 site/
+
+
+# IDEs
+.idea/
+.vscode/
