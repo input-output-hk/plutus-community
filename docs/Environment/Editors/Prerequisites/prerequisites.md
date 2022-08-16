@@ -26,7 +26,7 @@ or you can download pre-built binary from [releases page](https://github.com/has
 
 ### macOS
 On macOS, the installation is a bit trickier. 
-Due to [linking proglems](https://github.com/haskell/haskell-language-server/issues/1160) HLS crashes when your project uses TemplateHaskell (which Plutus uses a lot) ([issue](https://github.com/haskell/haskell-language-server/issues/1431), [issue](https://github.com/haskell/haskell-language-server/issues/277)). The workaround for this is to compile HLS manually with dynamic linking support. 
+Due to [linking problems](https://github.com/haskell/haskell-language-server/issues/1160) HLS crashes when your project uses TemplateHaskell (which Plutus uses a lot) ([issue](https://github.com/haskell/haskell-language-server/issues/1431), [issue](https://github.com/haskell/haskell-language-server/issues/277)). The workaround for this is to compile HLS manually with dynamic linking support. 
 
 1. Make sure you have ghc & cabal installed and available on your `$PATH` (either locally or within `nix-shell`)
 2. Clone HLS repo
