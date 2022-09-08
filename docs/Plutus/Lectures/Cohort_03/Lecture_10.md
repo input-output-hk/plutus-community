@@ -334,7 +334,7 @@ So we wrote a script for that, which will create a appropriate transaction and t
 ### Transaction Sign
 
 - Then we sign the transaction as always, by providing the magic, filename of the unsigned transaction, and file for the signed transaction.
-- We need our payment signing key, because we are spending this UTxO here. We can only do that by proving that it's ours, so we must sign with our payment signing key. However, we are also withdrawing, so we grabbed rewards sitting at the stake address. In order to prove that we have the right to do that, we need the signing key for that stake address as well. Therefore we need two signatures here; two signing key files.
+- We need our payment signing key, because we are spending this UTxO here. We can only do that by proving that it's ours, so we must sign with our payment signing key. However, we are also withdrawing, so we grabbed rewards sitting at the stake address. In order to prove that we have the right to do that, we need the signing key for that stake address as well. Therefore we need two signatures here: two signing key files.
 
 ### Transaction Submit
 
@@ -413,7 +413,7 @@ Rewarding StakingCredential
 Certifying DCert
 ```
 
-If you recall, the script context that our Plutus scripts always receive as one of the arguments contains a field of typescript purpose. During this lecture so far, we have only looked at the first two purposes. The one arguably most important is Spending TxOutRef.
+If you recall, the script context that our Plutus scripts always receive as one of the arguments contains a field of type 'ScriptPurpose'. During this lecture so far, we have only looked at the first two purposes. The one arguably most important is 'Spending TxOutRef'.
 
 ```
 data TxOutRef
@@ -439,9 +439,9 @@ Certifying DCert
 
 But we haven't talked about rewarding and certifying; as those two are related to Plutus and staking. As we briefly mentioned before, instead of using a public private key pair to create a stake address, we can instead use a Plutus script. Then the hash of that Plutus script will give a script stake address. 
 
-Where as we saw in the previous example, if we want to withdraw my rewards for example for a normal stake address, we have to witness that I'm allowed to do that by providing the signing key for this stake address. So if we use a script stake address, then instead the corresponding script will be executed. It will receive the redeemer and the script context, and we can use arbitrary logic to determine whether this transaction is allowed to actually withdraw those rewards.
+Where as we saw in the previous example, if we want to withdraw my rewards for example to a normal stake address, we have to witness that I'm allowed to do that by providing the signing key for this stake address. So if we use a script stake address, then instead the corresponding script will be executed. It will receive the redeemer and the script context, and we can use arbitrary logic to determine whether this transaction is allowed to actually withdraw those rewards.
 
-Similarly for Certifying DCert, there are various certifications that we can attach to a transaction. In particular, for staking registration delegation and de-registration certificates. If we newly create a stake address, we first have to register it by creating a transaction that contains a registration certificate for this stake address. Then, if we want to delegate to a pool or change an existing validation, we have to use a transaction that contains a delegation certificate. That certificate then contains the pool we want to delegate to. Finally we can also unregister a stake address again and get the original deposit back that we had to pay when we registered the stake address. For that particular case, if we do a delegation for example, then again the corresponding script will be executed and can contain arbitrary logic to determine whether this delegation for example is legal or not.
+Similarly for Certifying DCert, there are various certifications that we can attach to a transaction. In particular, for staking registration: delegation and de-registration certificates. If we newly create a stake address, we first have to register it by creating a transaction that contains a registration certificate for this stake address. Then, if we want to delegate to a pool or change an existing validation, we have to use a transaction that contains a delegation certificate. That certificate then contains the pool we want to delegate to. Finally we can also unregister a stake address again and get the original deposit back that we had to pay when we registered the stake address. For that particular case, if we do a delegation for example, then again the corresponding script will be executed and can contain arbitrary logic to determine whether this delegation for example is legal or not.
 
 So we want to concentrate on the rewarding purpose in this lecture.
 
@@ -466,14 +466,14 @@ TxInfo
     txInfoId :: TxId                                      Hash of the pending transaction (excluding witnesses)
 ```
 
-So if we look at the tx info field we have seen examples of various of the fields content in it like the inputs, outputs, minted value, walid range, and the signatures.
+So if we look at the tx info fields, we have seen examples of various of the fields content in it like the inputs, outputs, minted value, walid range, and the signatures.
 
 ```
  txInfoDCert :: [DCert]                                Digests of certificates included in this transaction
  txInfoWdrl :: Map StakingCredential Integer           Withdrawals
 ```
 
-However so far we have not looked at these two fields; txInfoDCert and txInfoWdrl. Here we have a field with all the certificates that are attached to the transaction. Now relevant for this lecture, we have a list of pairs containing of staking credentials and integers for withdrawals. 
+However, so far we have not looked at these two fields: txInfoDCert and txInfoWdrl. Here we have a field with all the certificates that are attached to the transaction. Now relevant for this lecture, we have a list of pairs containing of staking credentials and integers for withdrawals. 
 
 Each pair corresponds to the withdrawal of rewards from the state address given by the staking credential. The staking credential corresponds to our staking address given by a Plutus script, where the Integer is the amount of lovelace we are withdrawing. Whenever we withdraw rewards from a script staking address, then the corresponding Plutus script will be executed and we receive this credentials argument in the script purpose.
 
@@ -606,7 +606,7 @@ The first argument is the previous value of the accumulator, then the output we 
 
 The effect will be as sum up all the lovelace values contained in all the outputs that go to the specified address.
 
-Now we have to compile it to Plutus core script, and this is similar to what we have seen before. For staking it's, for whatever reason done a bit differently.
+Now we have to compile it to Plutus core script, and this is similar to what we have seen before. For staking, it's for whatever reason done a bit differently.
 
 So if we look at module Ledger.Type.Scripts, there's this function wrap stake validator.
 
@@ -617,7 +617,7 @@ type WrappedStakeValidatorType = BuiltinData -> BuiltinData -> ()
 wrapStakeValidator :: UnsafeFromData r => (r -> ScriptContext -> Bool) -> WrappedStakeValidatorType
 ```
 
-Provided we have a redeemer type that can be converted to built-in data, and we have something of this type, which fits well to what we have defined in the example. The redeemer script context going to boolean, then this wrap stake validator converts it into a function of type wrap stake validator type which is built-in data to built-in data to unit.
+Provided we have a redeemer type that can be converted to 'BuiltinData', and we have something of this type, which fits well to what we have defined in the example. The redeemer script context going to boolean, then this wrapStakeValidator converts it into a function of type wrappedStakeValidator type, which is 'BuiltinData' to 'BuiltinData' to unit.
 
 ```haskell
 stakeValidator :: Address -> StakeValidator
@@ -628,9 +628,9 @@ stakeValidator addr = mkStakeValidatorScript $
 ```
 So using that, given an address we can use the function we just defined, apply the address to it.
 
-Then we get something of this type unit to script context to bool, which is exactly what we can pass to wrap stake validator. The result of applying wrap stake validator to that is of type built-in data to built-in data to unit. The whole thing together with the address is then of type address to built-in data to built-in data to unit.
+Then we get something of this type unit to script context to bool, which is exactly what we can pass to 'wrapStakeValidator'. The result of applying 'wrapStakeValidator' to that is of type 'BuiltinData' to 'BuiltinData' to unit. The whole thing together with the address is then of type 'Address' to 'BuiltinData' to 'BuiltinData' to unit.
 
-I compile this and we lift the given address and apply it to this compiled Plutus script so then we end up with something of the right type namely built-in data to built-in data to unit. So this is very similar to what we did with typed validators for spending or minting it's just a little bit different how to apply this wrap stake validator. Out comes a stake validator and that's all we need.
+I compile this and we lift the given address and apply it to this compiled Plutus script so then we end up with something of the right type namely 'BuiltinData' to 'BuiltinData' to unit. So this is very similar to what we did with typed validators for spending or minting it's just a little bit different how to apply this 'wrapStakeValidator'. Out comes a 'StakeValidator' and that's all we need.
 
 ```haskell
 {-# LANGUAGE GADTs             #-}
@@ -691,7 +691,7 @@ So this ```writeStakeValidator``` we basically just copied the function from wee
 
 In order to conveniently do that, we also need the ability to take the address in the format that the CLI uses and convert it to a Plutus address; which we had the same problem before in week 06.
 
-So we basically just copy pasted the code we had, these three helper functions ```credentialLedgerToPlutus``` , ```stakeReferenceLedgerToPlutus```, and ```tryReadAddress```. Given a string, it passes that into a Plutus address.
+So we basically just copy pasted the code we had, these three helper functions ```credentialLedgerToPlutus``` , ```stakeReferenceLedgerToPlutus```, and ```tryReadAddress```. Given a string, it parses that into a Plutus address.
 
 ```haskell
 import System.Environment (getArgs)
@@ -711,7 +711,7 @@ main = do
 
 Finally, we defined an executable **write-stake-valiator.hs**, which receives two command line parameters, a file name and an address.
 
-Then it uses this ```writeStakeValidator``` with the provided file and the past address to compute the stake validator, parameterized by this address and serialize it to this file. This is already all the Haskell or Plutus code that we need, so now we can try this out in the private testnet.
+Then it uses this ```writeStakeValidator``` with the provided file and the past address to compute the stake validator, parameterized by this address and serializes it to this file. This is already all the Haskell or Plutus code that we need, so now we can try this out in the private testnet.
 
 ## Trying it on the Testnet
 
@@ -845,7 +845,7 @@ txin=$1
 echo "addr: $addr"
 echo "txin: $txin"
 ```
-One step at the time: 
+One step at a time: 
 
 - ```addr``` is the newly created address
 - ```txin``` is to to pay for the transaction
@@ -941,7 +941,7 @@ Then we use Cardano-CLI stake address delegation certificate.
 - Second, the stake-pool-id we want to delegate to (we get that from the command we looked at earlier, the query stake pools)
 - Lastly, write the resulting certificate to the delegation file.
  
-Then we need the protocol parameters we saw that before, which there is this query protocol parameters command.
+Then we need the protocol parameters we saw that before, with the query protocol parameters command.
 
 ```
 cardano-cli transaction build \
@@ -973,10 +973,10 @@ Finally, we can build our transaction.
 - As change address, we use the new payment address for user. We do that so that that address also is funded, and can then accumulate rewards.
 - The Out file 
 - txin as input, the parameter we have to give to the script. This involves Plutus, because the Plutus script has to be executed to check whether the delegation is valid.
-- Any transaction involving executing Plutus needs collateral. So as collateral can use the same input. Remember, collateral must be a pure lovelace UTxO.
+- Any transaction involving executing Plutus needs collateral. So as collateral we can use the same input. Remember, collateral must be a pure lovelace UTxO.
 - Then we attach the registration certificate 
-- Followed by the delegation certificate, and for the delegation certificate we must also provide witnesses (that could be in the case of a normal stake address; it would be the signing key belong to this).
-- Now it is our script file the we provide
+- Followed by the delegation certificate, and for the delegation certificate we must also provide witnesses (for example, in the case of a normal stake address, it would be the signing key belonging to this).
+- Now it is our script file that we provide
 - As redeemer, remember we had type unit and in order to have a serialized form of the unit value we use this unit.json which we just copied from lecture 3.
 - Then we provide the protocol parameters
 
@@ -1089,7 +1089,7 @@ cardano-cli transaction submit \
     --tx-file $signed
 ```
 
-Now lets execute the script. As input we can use we have to use the UTxO #0, since it's the only one sitting at this address.
+Now lets execute the script. As input we have to use the UTxO #0, since it's the only one sitting at this address.
 
 ```
 [nix-shell:~/plutus-pioneer-program/code/week10]$ ./scripts/withdraw-user1-script.sh 4c4660aa60beea8a4e50dc18aad3fe4e69fa25f18cd9d452ea64fd091afd57d5#0
